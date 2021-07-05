@@ -59,7 +59,6 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
