@@ -7,6 +7,7 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Добавить новую новость</li>
         </ol>
+        
     </div>
     <div>
         <form method='post' action="{{ route('admin.news.store') }}">

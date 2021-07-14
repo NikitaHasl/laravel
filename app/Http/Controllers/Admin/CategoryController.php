@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -14,8 +16,17 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $categoryModel = new Category();
+        $categories = $categoryModel->getCategories();
+        dd(
+            DB::table('categories')
+                ->join('news', 'categories.id', '=', 'news.category_id')
+                ->select(['news.*', 'categories.title as categoryTitle', 'categories.description as categoryDescription'])
+                ->where('news.id', '=', 2)
+                ->get()
+        );
         return view('admin.categories.index', [
-            'categoryList' => $this->newsCategories,
+            'categoryList' => $categories,
         ]);
     }
 
