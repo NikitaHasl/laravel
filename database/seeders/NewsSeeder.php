@@ -23,11 +23,12 @@ class NewsSeeder extends Seeder
     {
         $faker = Factory::create();
         $data = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $title = $faker->sentence(mt_rand(3, 10));
             $slug = Str::slug($title);
             $data[] = [
-                'category_id' => 1,
+                'category_id' => (mt_rand(1, 10)),
+                'user_id' => (mt_rand(1, 10)),
                 'title' => $title,
                 'slug' => $slug,
                 'description' => $faker->text(250),

@@ -11,27 +11,4 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    protected array $news;
-    protected array $newsCategories = [
-        'IT',
-        'Politics',
-        'Science',
-        'Cars',
-        'Weapon'
-    ];
-
-    protected function getNews()
-    {
-        $faker = Factory::create('ru_Ru');
-        for ($i = 1; $i <= 20; $i++) {
-            $this->news[] = [
-                'title' => "Новость {$i}",
-                'category' => "{$this->newsCategories[$i % 5]}",
-                'description' => $faker->text(100)
-            ];
-        }
-
-        return $this->news;
-    }
 }

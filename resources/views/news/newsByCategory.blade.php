@@ -1,4 +1,5 @@
-@extends('layouts/main')
+@extends('layouts.main')
+@section('heading') Новости @stop
 @section('content')
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -28,5 +29,4 @@
             </div>
         </div>
     </div>
-
 @endsection

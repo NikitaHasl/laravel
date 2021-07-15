@@ -31,13 +31,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories');
-Route::get('/categories/{id}', [CategoryController::class, 'show'])
-    ->name('categories.show')
-    ->where('id', '\d+');
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news');
 Route::get('/news/{id}', [NewsController::class, 'show'])
     ->where('id', '\d+')
     ->name('news.show');
+Route::get('/news/category/{categoryId}', [NewsController::class, 'newsByCategory'])
+    ->where('id', '\d+')
+    ->name('news.category');
 Route::view('/feedback', 'feedback')
     ->name('feedback');

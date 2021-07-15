@@ -12,13 +12,13 @@ class Category extends Model
     public function getCategories()
     {
         return DB::table($this->table)
-            ->select(['id', 'title', 'description', 'created_at'])
+            ->select(['*'])
             ->get();
     }
 
     public function getCategoryById(int $id)
     {
         return DB::table($this->table)
-            ->find($id, ['id', 'title', 'description', 'created_at']);
+            ->find($id, ['*']);
     }
 }

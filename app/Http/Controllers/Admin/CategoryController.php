@@ -18,13 +18,6 @@ class CategoryController extends Controller
     {
         $categoryModel = new Category();
         $categories = $categoryModel->getCategories();
-        dd(
-            DB::table('categories')
-                ->join('news', 'categories.id', '=', 'news.category_id')
-                ->select(['news.*', 'categories.title as categoryTitle', 'categories.description as categoryDescription'])
-                ->where('news.id', '=', 2)
-                ->get()
-        );
         return view('admin.categories.index', [
             'categoryList' => $categories,
         ]);
