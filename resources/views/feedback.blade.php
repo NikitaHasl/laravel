@@ -1,26 +1,34 @@
 @extends('layouts.main')
 @section('heading') Форма обратной связи@stop
 @section('content')
-<form method='post' action="#">
-    @csrf
-    <div class='form-group'>
-        <label for="name">
-            Имя пользователя
-        </label>
-        <input type='text' class='form-control' id='name' name='name' value="{{ old('name') }}">
-    </div><br>
-    <div class='form-group'>
-        <label for="email">
-            Email
-        </label>
-        <input type='email' class='form-control' id='email' name='email' value="{{ old('email') }}">
-    </div><br>
-    <div class='form-group'>
-        <label for="message">
-            Текст обращения
-        </label>
-        <textarea class='form-control' id='message' name='message'>{{ old('message') }}</textarea>
-    </div><br>
-    <button type='submit' class='btn btn-primary'>Отправить</button><br>
-</form><br>
+    <main>
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="my-5">
+                        <form method='post' action="#">
+                            @csrf
+                            <div class="form-floating">
+                                <input class="form-control" id="name" name="name" type="text"
+                                    placeholder="Введите имя пользователя" />
+                                <label for="name">Имя</label>
+                            </div>
+                            <div class="form-floating">
+                                <input class="form-control" id="email" type="email" placeholder="Введите адрес почты" />
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="form-floating">
+                                <textarea class="form-control" id="message" placeholder="Введите сообщение"
+                                    style="height: 12rem"></textarea>
+                                <label for="message">Текст сообщения</label>
+                            </div>
+                            <br />
+                            <button class="btn btn-primary text-uppercase" id="submitButton"
+                                type="submit">Отправить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 @endsection

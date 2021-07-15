@@ -44,7 +44,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
         ]);
-        $data = $request->only('name');
+        $data = $request->input('name');
     }
 
     /**
