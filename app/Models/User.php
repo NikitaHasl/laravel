@@ -3,22 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 class User extends Model
 {
     protected $table = 'users';
+    protected $fillable = [
+        'firstname',
+        'surname',
+        'email',
+        'birthday',
+        'gender',
+        'role',
+        'password_hash'
+    ];
 
-    public function getUsers()
+    public function news(): HasMany
     {
-        return DB::table($this->table)
-            ->select(['*'])
-            ->get();
-    }
-
-    public function getUserById(int $id)
-    {
-        return DB::table($this->table)
-            ->find($id, ['*']);
+        return $this->hasMany(News::class, 'user_id', 'id');
     }
 }

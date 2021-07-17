@@ -33,11 +33,11 @@ Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories');
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news');
-Route::get('/news/{id}', [NewsController::class, 'show'])
-    ->where('id', '\d+')
+Route::get('/news/{news}', [NewsController::class, 'show'])
+    ->where('news', '\d+')
     ->name('news.show');
 Route::get('/news/category/{categoryId}', [NewsController::class, 'newsByCategory'])
-    ->where('id', '\d+')
+    ->where('categoryId', '\d+')
     ->name('news.category');
 Route::view('/feedback', 'feedback')
     ->name('feedback');

@@ -15,12 +15,15 @@
                     Список Категорий
                 </div>
                 <div class="card-body">
+                    @include('inc.message')
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
                                 <th>#ID</th>
                                 <th>Название</th>
                                 <th>Описание</th>
+                                <th>Цвет</th>
+                                <th>Кол-во новостей в категории</th>
                                 <th>Дата добавления</th>
                                 <th>Управление</th>
                             </tr>
@@ -31,6 +34,8 @@
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->title }}</td>
                                     <td>{{ $category->description }}</td>
+                                    <td>{{ $category->color }}</td>
+                                    <td>{{ optional($category->news)->count() }}</td>
                                     <td>{{ $category->created_at }}</td>
                                     <td>
                                         <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}"

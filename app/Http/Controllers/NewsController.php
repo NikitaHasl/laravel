@@ -9,26 +9,25 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $newsModel = new News();
-        $news = $newsModel->getNews();
+        $news = News::with(['user', 'category'])
+            ->paginate(5);
         return view('news.index', [
             'newsList' => $news
         ]);
     }
 
-    public function show(int $id)
+    public function show(News $news)
     {
-        $newsModel = new News();
-        $newsById = $newsModel->getNewsById($id);
         return view('news.show', [
-            'news' => $newsById[0]
+            'news' => $news
         ]);
     }
 
     public function newsByCategory(int $categoryId)
     {
-        $newsModel = new News();
-        $newsByCategory = $newsModel->getNewsByCategory($categoryId);
+        $newsByCategory = News::with(['user', 'category'])
+            ->where('category_id', '=', $categoryId)
+            ->paginate(5);
         return view('news.newsByCategory', [
             'newsList' => $newsByCategory
         ]);

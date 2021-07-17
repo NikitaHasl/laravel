@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') Добавить новость - @parent @stop
+@section('title') Редактировать новость - @parent @stop
 @section('content')
     <main>
         <div class="container">
@@ -7,21 +7,21 @@
                 <div class="col-lg-5">
                     <div class="card border-0 rounded-lg mt-5">
                         <div class="card-header">
-                            <h3 class="text-center font-weight-light my-4">Добавить новость</h3>
+                            <h3 class="text-center font-weight-light my-4">Редактировать новость</h3>
                         </div>
                         <div class="card-body">
-                            @include('inc.error')
-                            <form method='post' action="{{ route('admin.news.store') }}">
+                            <form method='post' action="{{ route('admin.news.update', ['news' => $news]) }}">
                                 @csrf
+                                @method('put')
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="title" name="title" type="text"
-                                        value="{{ old('title') }}" />
+                                        value="{{ $news->title }}" />
                                     <label for="title">Заголовок</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <select class="form-control" id="user" name="user_id">
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" @if (old('iser_id') === $user->id) selected @endif>
+                                            <option value="{{ $user->id }}" @if ($news->user_id === $user->id) selected @endif>
                                                 {{ $user->firstname }}
                                             </option>
                                         @endforeach
@@ -31,7 +31,7 @@
                                 <div class="form-floating mb-3">
                                     <select class="form-control" id="category" name="category_id">
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}" @if (old('category_id') === $category->id) selected @endif>
+                                            <option value="{{ $category->id }}" @if ($news->category_id === $category->id) selected @endif>
                                                 {{ $category->title }}
                                             </option>
                                         @endforeach
@@ -44,16 +44,16 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <select class="form-control" name="status" id="status">
-                                        <option @if (old('status') === 'DRAFT') selected @endif>DRAFT
+                                        <option @if ($news->status === 'DRAFT') selected @endif>DRAFT
                                         </option>
-                                        <option @if (old('status') === 'PUBLISHED') selected @endif>PUBLISHED</option>
-                                        <option @if (old('status') === 'PRIVATE') selected @endif>PRIVATE</option>
+                                        <option @if ($news->status === 'PUBLISHED') selected @endif>PUBLISHED</option>
+                                        <option @if ($news->status === 'PRIVATE') selected @endif>PRIVATE</option>
                                     </select>
                                     <label for="status">Статус</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" id="description" name="description"
-                                        style="height: 12rem">{{ old('description') }}</textarea>
+                                        style="height: 12rem">{{ $news->description }}</textarea>
                                     <label for="description">Описание</label>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mt-4 mb-0">

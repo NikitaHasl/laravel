@@ -9,8 +9,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categoryModel = new Category();
-        $categories = $categoryModel->getCategories();
+        $categories = Category::select(['id', 'title'])
+            ->get();
         return view('categories.index', [
             'categoryList' => $categories
         ]);

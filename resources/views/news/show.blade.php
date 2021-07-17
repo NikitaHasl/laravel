@@ -6,11 +6,11 @@
                 <!-- Post preview-->
                 <div class="post-preview">
                     <h1 class="post-title">{{ $news->title }}</h2>
-                        <h2 class="post-subtitle">{{ $news->category }}</h3>
+                        <h2 class="post-subtitle">{{ optional($news->category)->title }}</h3>
                             <h3 class="post">{{ $news->description }}</h3>
                             <p class="post-meta">
                                 Опубликовал
-                                <a href="#!">{{ $news->username }}</a>
+                                <a href="#!">{{ optional($news->user)->firstname }}</a>
                                 от {{ $news->created_at }}
                             </p>
                 </div>
