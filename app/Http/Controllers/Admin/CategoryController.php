@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStore;
+use App\Http\Requests\CategoryUpdate;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -38,16 +40,16 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryStore $request)
     {
         $category = Category::create(
-            $request->only(['title', 'color', 'description'])
+            $request->validated()
         );
         if ($category) {
-            return redirect()->route('admin.categories.index')->with('success', 'Запись добавлена');
+            return redirect()->route('admin.categories.index')->with('success', trans('message.admin.category.created.success'));
         }
 
-        return back()->with('error', 'Не удалось добавить запись');
+        return back()->with('error', trans('message.admin.category.created.fail'));
     }
 
     /**
@@ -81,15 +83,15 @@ class CategoryController extends Controller
      * @param  Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdate $request, Category $category)
     {
-        $statusCategory = $category->fill($request->only(['title', 'color', 'description']))->save();
+        $statusCategory = $category->fill($request->validated())->save();
 
         if ($statusCategory) {
-            return redirect()->route('admin.categories.index')->with('success', 'Запись обновлена');
+            return redirect()->route('admin.categories.index')->with('success', trans('message.admin.category.updated.success'));
         }
 
-        return back()->with('error', 'Не удалось обновить запись');
+        return back()->with('error', trans('message.admin.category.updated.fail'));
     }
 
     /**

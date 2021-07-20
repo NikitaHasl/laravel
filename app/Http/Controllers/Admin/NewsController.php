@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsStore;
+use App\Http\Requests\NewsUpdate;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -18,11 +21,6 @@ class NewsController extends Controller
      */
     public function index()
     {
-        // $news = News::join('users', 'news.user_id', '=', 'users.id')
-        //     ->join('categories', 'news.category_id', '=', 'categories.id')
-        //     ->select(['news.id as id', 'categories.title as category', 'users.firstname as username', 'news.title as title', 'news.slug as slug', 'news.status as status', 'news.description as description', 'news.created_at as created_at'])
-        //     ->orderBy('id')
-        //     ->get();
         $news = News::with(['category', 'user'])
             ->select(['id', 'category_id', 'user_id', 'title', 'slug', 'status', 'description', 'created_at'])
             ->orderBy('id')
@@ -53,20 +51,17 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsStore $request)
     {
-        $request->validate([
-            'title' => ['required', 'string'],
-        ]);
-        $data = $request->only(['title', 'user_id', 'category_id', 'status', 'description']);
+        $data = $request->validate();
         $data['slug'] = Str::slug($data['title']);
         $news = News::create($data);
 
         if ($news) {
-            return redirect()->route('admin.news.index')->with('success', 'Запись добавлена');
+            return redirect()->route('admin.news.index')->with('success', trans('message.admin.news.created.success'));
         }
 
-        return back()->with('error', 'Не удалось добавить запись');
+        return back()->with('error', trans('message.admin.news.created.fail'));
     }
 
     /**
@@ -104,27 +99,33 @@ class NewsController extends Controller
      * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(NewsUpdate $request, News $news)
     {
-        $data = $request->only(['title', 'user_id', 'category_id', 'status', 'description']);
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
         $statusNews = $news->fill($data)->save();
 
         if ($statusNews) {
-            return redirect()->route('admin.news.index')->with('success', 'Запись обновлена');
+            return redirect()->route('admin.news.index')->with('success', trans('message.admin.news.updated.success'));
         }
 
-        return back()->with('error', 'Не удалось обновить запись');
+        return back()->with('error', trans('message.admin.news.updated.fail'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, News $news)
     {
-        //
+        if ($request->ajax()) {
+            try {
+                $news->delete();
+            } catch (Exception $e) {
+                report($e);
+            }
+        }
     }
 }

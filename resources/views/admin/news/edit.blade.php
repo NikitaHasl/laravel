@@ -10,6 +10,7 @@
                             <h3 class="text-center font-weight-light my-4">Редактировать новость</h3>
                         </div>
                         <div class="card-body">
+                            @include('inc.error')
                             <form method='post' action="{{ route('admin.news.update', ['news' => $news]) }}">
                                 @csrf
                                 @method('put')
