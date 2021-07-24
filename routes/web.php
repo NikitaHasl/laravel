@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\Acount\IndexController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,12 +26,7 @@ Route::get('/', function () {
     return view('start');
 });
 
-//Admin group
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::view('/', 'admin.index');
-    Route::resource('categories', AdminCategoryController::class);
-    Route::resource('news', AdminNewsController::class);
-});
+
 
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories');
@@ -44,3 +42,21 @@ Route::get('/feedback', [FeedbackController::class, 'index'])
     ->name('feedback');
 Route::post('/feedback/store', [FeedbackController::class, 'store'])
     ->name('feedback.store');
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/account', IndexController::class);
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect()->route('login');
+    })->name('logout');
+    //Admin group
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
+        Route::resource('users', AdminUserController::class);
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('news', AdminNewsController::class);
+    });
+});
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

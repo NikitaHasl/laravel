@@ -23,15 +23,10 @@ class UsersSeeder extends Seeder
         $faker = Factory::create();
         $data = [];
         for ($i = 0; $i < 10; $i++) {
-            $gender = $faker->randomElement(['male', 'female']);
             $data[] = [
-                'firstname' => $faker->firstName($gender),
-                'surname' => $faker->lastName(),
+                'name' => $faker->firstName(),
                 'email' => $faker->unique()->email(),
-                'birthday' => $faker->date(),
-                'gender' => $gender,
-                'role' => 'user',
-                'password_hash' => $faker->sha1(),
+                'password' => $faker->sha1(),
                 'created_at' => now(),
                 'updated_at' => now()
             ];

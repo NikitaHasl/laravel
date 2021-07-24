@@ -16,7 +16,7 @@ class NewsStore extends FormRequest
         return true;
     }
 
-    /**
+    /**Request
      * Get the validation rules that apply to the request.
      *
      * @return array
