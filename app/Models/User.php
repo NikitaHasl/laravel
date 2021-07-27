@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,6 +16,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'avatar',
     ];
 
     public function news(): HasMany
@@ -28,4 +28,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_admin' => 'bool'
     ];
+
+    public $timestamps = false;
 }

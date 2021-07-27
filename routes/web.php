@@ -3,10 +3,12 @@
 use App\Http\Controllers\Acount\IndexController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\SocialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -45,7 +47,7 @@ Route::post('/feedback/store', [FeedbackController::class, 'store'])
 
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/account', IndexController::class);
+    Route::get('/account', IndexController::class)->name('account');
     Route::get('/logout', function () {
         Auth::logout();
         return redirect()->route('login');
@@ -55,7 +57,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('users', AdminUserController::class);
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('news', AdminNewsController::class);
+        Route::get('/parser', ParserController::class);
     });
+});
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/init/{driver?}', [SocialController::class, 'init'])->name('social.init');
+    Route::get('/callback/{driver?}', [SocialController::class, 'callback'])->name('social.callback');
 });
 Auth::routes();
 
