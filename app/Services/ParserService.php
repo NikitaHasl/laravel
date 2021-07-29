@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Contracts\ParserContract;
+use App\Models\Category;
+use App\Models\News;
 use Orchestra\Parser\Xml\Facade as XmlParser;
+use Illuminate\Support\Str;
 
 class ParserService implements ParserContract
 {
@@ -17,7 +20,7 @@ class ParserService implements ParserContract
             'link' => [
                 'uses' => 'channel.link',
             ],
-            'desription' => [
+            'description' => [
                 'uses' => 'channel.decription',
             ],
             'image' => [
@@ -28,5 +31,40 @@ class ParserService implements ParserContract
             ],
         ]);
         return $data;
+    }
+
+    public function saveNewsInDB(string $url): void
+    {
+        $parsedList = $this->getParsedList($url);
+        $doubleCategoryTitle = Category::where('title', '=', $parsedList['title'])->first();
+        if (is_null($doubleCategoryTitle)) {
+            $result = Category::create([
+                'title' => $parsedList['title'],
+                'description' => $parsedList['description'],
+            ]);
+            $categoryId = $result->id;
+            foreach ($parsedList['news'] as $news) {
+                News::create([
+                    'category_id' => $categoryId,
+                    'title' => $news['title'],
+                    'slug' => Str::slug($news['title']),
+                    'description' => $news['description'],
+                    'created_at' => $news['pubDate'],
+                ]);
+            }
+        } else {
+            $categoryId = $doubleCategoryTitle->id;
+            News::where('category_id', '=', $categoryId)
+                ->delete();
+            foreach ($parsedList['news'] as $news) {
+                News::create([
+                    'category_id' => $categoryId,
+                    'title' => $news['title'],
+                    'slug' => Str::slug($news['title']),
+                    'description' => $news['description'],
+                    'created_at' => $news['pubDate'],
+                ]);
+            }
+        }
     }
 }

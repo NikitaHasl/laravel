@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStore;
 use App\Http\Requests\CategoryUpdate;
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -100,8 +101,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Category $category)
     {
-        //
+        if ($request->ajax()) {
+            try {
+                $category->delete();
+            } catch (Exception $e) {
+                report($e);
+            }
+        }
     }
 }

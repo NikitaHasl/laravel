@@ -29,7 +29,7 @@ class NewsUpdate extends FormRequest
             'user_id' => ['required', 'integer'],
             'img' => ['sometimes'],
             'status' => ['required'],
-            'description' => ['required', 'min:15', 'max:299', 'alpha_dash']
+            'description' => ['required', 'min:15', 'max:299']
         ];
     }
 

@@ -9,7 +9,11 @@
                         <a href="{{ route('news.show', ['news' => $news]) }}">
                             <h2 class="post-title">{{ $news->title }}</h2>
                             <h3 class="post-subtitle">{{ optional($news->category)->title }}</h3>
-                            <h3 class="post-subtitle">{{ $news->description }}</h3>
+                            <h3 class="post-subtitle">{!! $news->description !!}</h3>
+                            @if ($news->img != '')
+                                <img src="{{ Storage::disk('public')->url($news->img) }}" style="width: 130px">
+                            @endif
+
                         </a>
                         <p class="post-meta">
                             Опубликовал

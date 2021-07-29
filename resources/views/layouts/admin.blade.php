@@ -41,6 +41,7 @@
     <script src="{{ asset('assets/admin/js/scripts.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/admin/js/datatables-simple-demo.js') }}"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
     @stack('js')
 </body>
 

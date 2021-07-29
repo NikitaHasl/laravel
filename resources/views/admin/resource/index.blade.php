@@ -1,17 +1,18 @@
 @extends('layouts/admin')
-@section('title') Список новостей - @parent @stop
+@section('title') Список ресурсов - @parent @stop
 @section('content')
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Новости</h1>
-            <a href="{{ route('admin.news.create') }}" class="btn btn-primary" style="float: right;">Добавить новость</a>
+            <h1 class="mt-4">Ресурсы</h1>
+            <a href="{{ route('admin.resources.create') }}" class="btn btn-primary" style="float: right;">Добавить
+                ресурс</a>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">Список Новостей</li>
+                <li class="breadcrumb-item active">Список ресурсов</li>
             </ol>
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
-                    Список Новостей
+                    Список Ресурсов
                 </div>
                 <div class="card-body">
                     @include('inc.message')
@@ -19,40 +20,25 @@
                         <thead>
                             <tr>
                                 <th>#ID</th>
-                                <th>Заголовок</th>
-                                <th>Slug</th>
-                                <th>Категория</th>
-                                <th>Автор</th>
-                                <th>Описание</th>
-                                <th>Картинка</th>
-                                <th>Статус</th>
+                                <th>Url</th>
                                 <th>Дата добавления</th>
                                 <th>Управление</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($newsList as $news)
+                            @forelse($resourceList as $res)
                                 <tr>
-                                    <td>{{ $news->id }}</td>
-                                    <td>{{ $news->title }}</td>
-                                    <td>{{ $news->slug }}</td>
-                                    <td>{{ optional($news->category)->title }}</td>
-                                    <td>{{ optional($news->user)->name }}</td>
-                                    <td>{{ $news->description }}</td>
-                                    <td>{{ $news->img }}</td>
-                                    <td>{{ $news->status }}</td>
-                                    <td>{{ $news->created_at }}</td>
+                                    <td>{{ $res->id }}</td>
+                                    <td>{{ $res->url }}</td>
+                                    <td>{{ $res->created_at }}</td>
                                     <td>
-                                        <a href="{{ route('admin.news.edit', ['news' => $news]) }}"
-                                            style='font-size:12px'>ред.</a>
-                                        &nbsp;
-                                        <a href="javascript:;" class="delete" rel="{{ $news->id }}"
+                                        <a href="javascript:;" class="delete" rel="{{ $res->id }}"
                                             style='font-size:12px;color:red'>уд.</a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td collspan=8>Записей не найдено</td>
+                                    <td collspan=4>Записей не найдено</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -74,7 +60,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         type: "DELETE",
-                        url: "/admin/news/" + $(this).attr("rel"),
+                        url: "/admin/resources/" + $(this).attr("rel"),
                         complete: function($data, $msg) {
                             alert('Запись удалена');
                             location.reload();

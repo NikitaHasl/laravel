@@ -22,7 +22,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::with(['category', 'user'])
-            ->select(['id', 'category_id', 'user_id', 'title', 'slug', 'status', 'description', 'created_at'])
+            ->select(['id', 'category_id', 'user_id', 'title', 'slug', 'status', 'description', 'img', 'created_at'])
             ->orderBy('id')
             ->get();
         return view('admin.news.index', [
@@ -37,7 +37,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $users = User::select(['id', 'firstname'])->get();
+        $users = User::all();
         $categories = Category::select(['id', 'title'])->get();
         return view('admin.news.create', [
             'users' => $users,
@@ -53,8 +53,10 @@ class NewsController extends Controller
      */
     public function store(NewsStore $request)
     {
-        $data = $request->validate();
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
+
+
         $news = News::create($data);
 
         if ($news) {
@@ -103,6 +105,15 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
+        if ($request->hasFile('img')) {
+            $img = $request->file('img');
+            $filename = md5($img->getClientOriginalName() . time());
+            $fileExt = $img->getClientOriginalExtension();
+            $name = "$filename.$fileExt";
+            $link = $img->storeAs('news', $name, 'public');
+            $data['img'] = $link;
+        }
+
         $statusNews = $news->fill($data)->save();
 
         if ($statusNews) {

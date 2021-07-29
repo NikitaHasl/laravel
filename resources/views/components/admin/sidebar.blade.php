@@ -16,6 +16,10 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
                 Новости
             </a>
+            <a class="nav-link @if (request()->routeIs('admin.resources.*')) active @endif" href="{{ route('admin.resources.index') }}">
+                <div class="sb-nav-link-icon"><i class="fas fa-link"></i></div>
+                Ресурсы
+            </a>
 
         </div>
     </div>

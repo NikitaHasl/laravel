@@ -24,7 +24,7 @@ class CategorySeeder extends Seeder
         $data = [];
         for ($i = 0; $i < 10; $i++) {
             $data[] = [
-                'title' => $faker->sentence(mt_rand(3, 10)),
+                'title' => $faker->unique()->sentence(2),
                 'description' => $faker->text(250),
                 'color' => $faker->hexColor,
                 'created_at' => now(),

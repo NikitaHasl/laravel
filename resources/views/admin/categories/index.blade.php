@@ -42,7 +42,8 @@
                                             style='font-size:12px'>ред.</a>
 
                                         &nbsp;
-                                        <a href="#" style='font-size:12px;color:red'>уд.</a>
+                                        <a href="javascript:;" class="delete" rel="{{ $category->id }}"
+                                            style='font-size:12px;color:red'>уд.</a>
                                     </td>
                                 </tr>
                             @empty
@@ -57,4 +58,28 @@
         </div>
     </main>
 @endsection
+@push('js')
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $(".delete").on("click", function() {
+                if (confirm("Подтверждаете удаление?")) {
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: "DELETE",
+                        url: "/admin/categories/" + $(this).attr("rel"),
+                        complete: function($data, $msg) {
+                            alert('Запись удалена');
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+@endpush
 @start

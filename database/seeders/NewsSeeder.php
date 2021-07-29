@@ -24,7 +24,7 @@ class NewsSeeder extends Seeder
         $faker = Factory::create();
         $data = [];
         for ($i = 0; $i < 20; $i++) {
-            $title = $faker->sentence(mt_rand(3, 10));
+            $title = $faker->sentence(mt_rand(3, 5));
             $slug = Str::slug($title);
             $data[] = [
                 'category_id' => (mt_rand(1, 10)),

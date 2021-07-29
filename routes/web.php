@@ -4,6 +4,7 @@ use App\Http\Controllers\Acount\IndexController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\Admin\ResourceController as AdminResourceController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeedbackController;
@@ -12,7 +13,7 @@ use App\Http\Controllers\SocialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use UniSharp\LaravelFilemanager\Lfm;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('users', AdminUserController::class);
         Route::resource('categories', AdminCategoryController::class);
+        Route::resource('resources', AdminResourceController::class);
         Route::resource('news', AdminNewsController::class);
         Route::get('/parser', ParserController::class);
     });

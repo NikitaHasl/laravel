@@ -11,7 +11,7 @@
                         </div>
                         <div class="card-body">
                             @include('inc.error')
-                            <form method='post' action="{{ route('admin.news.store') }}">
+                            <form method='post' action="{{ route('admin.news.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="title" name="title" type="text"
@@ -22,7 +22,7 @@
                                     <select class="form-control" id="user" name="user_id">
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}" @if (old('iser_id') === $user->id) selected @endif>
-                                                {{ $user->firstname }}
+                                                {{ $user->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -69,3 +69,13 @@
         </div>
     </main>
 @endsection
+@push('js')
+    <script>
+        CKEDITOR.replace('description', {
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+        });
+    </script>
+@endpush
